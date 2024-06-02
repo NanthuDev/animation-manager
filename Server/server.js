@@ -19,7 +19,7 @@ app.use('/graph',ExpressGql.graphqlHTTP({
     type Event {
         _id:ID!,
         title:String!,
-        Description:String!,
+        description:String!,
         price:Float!,
         date:String!
 
@@ -49,15 +49,17 @@ app.use('/graph',ExpressGql.graphqlHTTP({
             return events
         },
         createEvent:(args)=>{
+            console.log(args)
             const event = {
                 _id:Math.random().toString(),
-                title:args.title,
-                description:args.description,
-                price:args.price,
+                title:args.eventInput.title,
+                description:args.eventInput.description,
+                price:+args.eventInput.price,
                 date:new Date().toISOString()
 
             }
             events.push(event)
+            return event;
             // const eventName = args.name;
             // return eventName;
         }
