@@ -1,7 +1,23 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, Schema } = require("mongoose");
 
-const animationModel = mongoose.model("animations",{
-    name:String,
-    descriptions:String,
-    tags:
+const AnimationsSchema = new Schema({
+    title:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true
+    }, 
+    date:{
+        type:Date,
+        required:true
+    },
 })
+
+
+module.exports = mongoose.model("Animations",AnimationsSchema)

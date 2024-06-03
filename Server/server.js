@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+require('dotenv').config()
 const ExpressGql =require("express-graphql");
  const mongoose = require("mongoose");
-
+const animEvent = require('./models/animations')
 const {
     GraphQLID, buildSchema,graphiql
 }  = require("graphql");
@@ -46,6 +46,13 @@ app.use('/graph',ExpressGql.graphqlHTTP({
     }`),
     rootValue:{
         events:()=>{
+           return animEvent.find().then(result=>{
+                return result.map(event=>{
+                    return {...event._doc}
+                })
+            }).catch(err=>{
+                console.log(err)
+            })
             return events
         },
         createEvent:(args)=>{
@@ -58,8 +65,20 @@ app.use('/graph',ExpressGql.graphqlHTTP({
                 date:new Date().toISOString()
 
             }
-            events.push(event)
-            return event;
+            const Anim = new animEvent({ 
+                title:args.eventInput.title,
+                description:args.eventInput.description,
+                price:+args.eventInput.price,
+                date:new Date().toISOString()
+            })
+            Anim.save().then((result)=>{
+                console.log("result")
+                return {...result._doc}
+            }).catch(err=>{
+                console.log(err)
+            })
+            // events.push(event)
+            // return event;
             // const eventName = args.name;
             // return eventName;
         }
@@ -68,7 +87,12 @@ app.use('/graph',ExpressGql.graphqlHTTP({
 }));
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/animation-managers").then(()=>{
+// mongoose.connect("mongodb://127.0.0.1:27017/animation-managers").then(()=>{
+//     console.log("Mongo Client Connected")
+// }).catch(err=> console.log("Mongo Connection - Error", err))
+
+console.log("MONGO_CLIENT",process.env.MONGO_CLIENT,new Date().toISOString())
+mongoose.connect(process.env.MONGO_CLIENT).then(()=>{
     console.log("Mongo Client Connected")
 }).catch(err=> console.log("Mongo Connection - Error", err))
 
