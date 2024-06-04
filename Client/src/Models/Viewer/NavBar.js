@@ -1,4 +1,6 @@
+import AnimPlayer from "../Components/Player/Player";
 import SearchBar from "../Components/SearchBar/Search";
+import Uploader from "../Components/uploader/Uploader";
 
  
  
@@ -13,6 +15,8 @@ function NavBar() {
 
       </h1> */}
       <SearchBar></SearchBar>
+      <AnimPlayer></AnimPlayer>
+      <Uploader></Uploader>
 </div>
     </div>
   );
