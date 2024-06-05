@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
+import { storage } from '../../../fb';
+
 
 const AnimPlayer = () => {
     console.log("plaa")
+    const [imageList,setImageList] = useState([]);
+    const imageListRef = ref(storage,"animations/");
+    useEffect(()=>{
+      listAll(imageListRef).then(results=>{
+        console.log(results)
+        results.items.forEach((item)=>{
+          getDownloadURL(item).then((url)=>{
+            setImageList((prev)=>[...prev,url])
+          })
+        })
+      }).catch(err=>{console.log(err)})
+    },[])
+
   return (
-    <DotLottieReact
-      src="http://localhost:3000/assets/jsons/Animation1717517755581.json"
-      loop
-      autoplay
-      style={{
-        maxWidth: "600px"
-      }}
-    />
+    <div>
+      {imageList.map(url=>{
+        return(
+          <DotLottieReact
+          src={url}
+          loop
+          autoplay
+          style={{
+            maxWidth: "600px"
+          }}
+        />
+        )
+      })}
+    </div>
+   
    
   );
 };
