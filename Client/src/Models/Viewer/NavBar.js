@@ -15,8 +15,9 @@ function NavBar() {
 
       </h1> */}
       <SearchBar></SearchBar>
+      {/* <Uploader></Uploader> */}
       <AnimPlayer></AnimPlayer>
-      <Uploader></Uploader>
+     
 </div>
     </div>
   );

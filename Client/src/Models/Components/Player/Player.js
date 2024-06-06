@@ -18,8 +18,9 @@ const AnimPlayer = () => {
         })
       }).catch(err=>{console.log(err)})
     },[])
-
+    console.log(imageList)
   return (
+    
     <div>
       {imageList.map(url=>{
         return(

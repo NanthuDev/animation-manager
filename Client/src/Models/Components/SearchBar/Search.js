@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { storage } from "../../../fb";
 import { ref,uploadBytes } from "firebase/storage";
+import Uploader from "../uploader/Uploader";
 
 function SearchBar() {
   const [imageUpload, setImageUpload] = useState(null);
@@ -59,7 +60,7 @@ function SearchBar() {
           </form>
         </div>
         <div class="grid justify-items-end ...">
-          <input
+          {/* <input
             type="file"
             onChange={(event) => {
               setImageUpload(event.target.files[0]);
@@ -71,7 +72,8 @@ function SearchBar() {
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Upload
-          </button>
+          </button> */}
+          <Uploader></Uploader>
         </div>
       </div>
     </div>
