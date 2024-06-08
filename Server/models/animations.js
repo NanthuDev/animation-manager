@@ -9,8 +9,12 @@ const AnimationsSchema = new Schema({
         type:String,
         required:true
     },
-    price:{
-        type:Number,
+    tags:{
+        type:String,
+        required:true
+    }, 
+    fileName:{
+        type:String,
         required:true
     }, 
     date:{

@@ -2,6 +2,7 @@ import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
  import { storage } from "../../../fb";
 import { ref,uploadBytes } from "firebase/storage";
+import AnimationServices from "../../../Services/animations";
 
 function UploadForm() {
   // const [openModal, setOpenModal] = useState(true);
@@ -26,10 +27,20 @@ function UploadForm() {
     })
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    alert(`The name you entered was: `)
-    console.log(inputs)
+   //  uploadImage();
+    const requestBody = {
+      query:`
+      mutation{
+        createEvent(eventInput:{title:"${inputs.title}", description:"${inputs.desc}",tags:"${inputs.tags}",date:"",fileName:"cxcxc"}){
+          title,
+          _id
+        }
+      }`
+    }
+    let result = await AnimationServices.saveAnimations(requestBody)
+    console.log('result',result)
   }
 
   return (

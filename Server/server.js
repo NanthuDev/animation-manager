@@ -3,15 +3,17 @@ const bodyParser = require("body-parser");
 require('dotenv').config()
 const ExpressGql =require("express-graphql");
  const mongoose = require("mongoose");
-const animEvent = require('./models/animations')
+const animEvent = require('./models/animations');
+var cors = require('cors')
+
 const {
     GraphQLID, buildSchema,graphiql
 }  = require("graphql");
 
 
 const app = express();
-
-app.use(bodyParser.json());
+ app.use(bodyParser.json());
+app.use(cors())
 
 const events = [];
 app.use('/graph',ExpressGql.graphqlHTTP({
@@ -19,8 +21,9 @@ app.use('/graph',ExpressGql.graphqlHTTP({
     type Event {
         _id:ID!,
         title:String!,
+        fileName:String!,
         description:String!,
-        price:Float!,
+        tags:String!,
         date:String!
 
     }
@@ -28,7 +31,8 @@ app.use('/graph',ExpressGql.graphqlHTTP({
     input EventInput{
         title:String!
         description:String!
-        price:Float!
+        tags:String!,
+        fileName:String!,
         date:String
     }
 
@@ -61,14 +65,15 @@ app.use('/graph',ExpressGql.graphqlHTTP({
                 _id:Math.random().toString(),
                 title:args.eventInput.title,
                 description:args.eventInput.description,
-                price:+args.eventInput.price,
+                tags:+args.eventInput.price,
                 date:new Date().toISOString()
 
             }
             const Anim = new animEvent({ 
                 title:args.eventInput.title,
+                fileName:args.eventInput.fileName,
                 description:args.eventInput.description,
-                price:+args.eventInput.price,
+                tags:args.eventInput.tags,
                 date:new Date().toISOString()
             })
             Anim.save().then((result)=>{
