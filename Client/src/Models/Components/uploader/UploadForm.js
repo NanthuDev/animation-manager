@@ -1,14 +1,19 @@
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
  import { storage } from "../../../fb";
-import { ref,uploadBytes } from "firebase/storage";
+import { ref,uploadBytes, getStorage, getMetadata } from "firebase/storage";
 import AnimationServices from "../../../Services/animations";
+import { v4 as uuidv4 } from 'uuid';
+
+ 
+
+
 
 function UploadForm() {
   // const [openModal, setOpenModal] = useState(true);
   const [imageUpload, setImageUpload] = useState(null);
   const [inputs, setInputs] = useState({});
-
+//cf81cf50-d6ad-4bf1-bcfa-1886a463b7f5}
   const handleChange = (event) => {
      const title = event.target.name; 
     const value = event.target.value;
@@ -16,10 +21,21 @@ function UploadForm() {
     setInputs(values => ({...values, [title]: value}))
   }
 
+const getImage =async (fileName)=>{
+  // Create a reference to the file whose metadata we want to retrieve
+const storage = getStorage();
+const forestRef = ref(storage, 'animations/cf81cf50-d6ad-4bf1-bcfa-1886a463b7f5}');
 
-  const uploadImage = () => {
+const filseName = 'animations/cf81cf50-d6ad-4bf1-bcfa-1886a463b7f5}';
+const encodedFileName = encodeURIComponent(filseName);
+const downloadUrl = await ref(encodedFileName).getDownloadURL();
+console.log(downloadUrl) 
+}
+
+getImage("90");
+  const uploadImage = (fileName) => { 
     if (imageUpload == null) return;
-    const imageRef = ref(storage, `animations/${imageUpload.name}--${Date.now()}`);
+    const imageRef = ref(storage, `animations/${fileName}`);
     uploadBytes(imageRef,imageUpload).then(response=>{
       alert("Anime Uploaded")
     }).catch(err=>{
@@ -29,16 +45,18 @@ function UploadForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-   //  uploadImage();
+   let fileName = uuidv4();
+   uploadImage(fileName); 
     const requestBody = {
       query:`
       mutation{
-        createEvent(eventInput:{title:"${inputs.title}", description:"${inputs.desc}",tags:"${inputs.tags}",date:"",fileName:"cxcxc"}){
+        createEvent(eventInput:{title:"${inputs.title}", description:"${inputs.desc}",tags:"${inputs.tags}",date:"",fileName:"${fileName}"}){
           title,
           _id
         }
       }`
     }
+    
     let result = await AnimationServices.saveAnimations(requestBody)
     console.log('result',result)
   }

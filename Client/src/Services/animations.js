@@ -16,6 +16,11 @@ const AnimationServices = {
         });
     });
   },
+
+  getAnimations:(file_id)=>{
+    
+
+  }
 };
 
 export default AnimationServices;
