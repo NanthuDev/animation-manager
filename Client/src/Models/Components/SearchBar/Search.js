@@ -3,7 +3,8 @@ import { storage } from "../../../fb";
 import { ref,uploadBytes } from "firebase/storage";
 import Uploader from "../uploader/Uploader";
 
-function SearchBar() {
+function SearchBar(props) {
+  console.log(props)
   const [imageUpload, setImageUpload] = useState(null);
   const uploadImage = () => {
     if (imageUpload == null) return;
@@ -14,6 +15,10 @@ function SearchBar() {
       console.log(err)
     })
   };
+
+  const refresh = ()=>{
+    props.refresh();
+  }
   return (
     <div>
       <div class="grid grid-cols-3 gap-4">
@@ -73,7 +78,7 @@ function SearchBar() {
           >
             Upload
           </button> */}
-          <Uploader></Uploader>
+          <Uploader refresh={refresh}></Uploader>
         </div>
       </div>
     </div>

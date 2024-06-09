@@ -17,10 +17,45 @@ const AnimationServices = {
     });
   },
 
-  getAnimations:(file_id)=>{
-    
+  getAnimations: (data) => {
+    return new Promise((resolve, reject) => {
+      fetch("http://localhost:8080/graph", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(async (result) => {
+          let data = await result.json();
+          console.log(data);
+          resolve(data.data.events);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 
-  }
+  searchAnimations: (values) => {
+    return new Promise((resolve, reject) => {
+      fetch(`http://localhost:8080/animations?title=${"test"}`, {
+        method: "GET",
+       
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(async (result) => {
+          let data = await result.json();
+          console.log(data);
+          resolve(data.data.events);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 };
 
 export default AnimationServices;
