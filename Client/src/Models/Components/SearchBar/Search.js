@@ -1,24 +1,41 @@
 import { useState } from "react";
 import { storage } from "../../../fb";
-import { ref,uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import Uploader from "../uploader/Uploader";
+import { getValue } from "firebase/remote-config";
 
 function SearchBar(props) {
-  console.log(props)
-  const [imageUpload, setImageUpload] = useState(null);
+   const [imageUpload, setImageUpload] = useState(null);
+  const [searchText, setSearchText] = useState('');
+
   const uploadImage = () => {
     if (imageUpload == null) return;
-    const imageRef = ref(storage, `animations/${imageUpload.name}--${Date.now()}`);
-    uploadBytes(imageRef,imageUpload).then(response=>{
-      alert("Anime Uploaded")
-    }).catch(err=>{
-      console.log(err)
-    })
+    const imageRef = ref(
+      storage,
+      `animations/${imageUpload.name}--${Date.now()}`
+    );
+    uploadBytes(imageRef, imageUpload)
+      .then((response) => {
+        alert("Anime Uploaded");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  const handleChange = (event) => {
+     const value = event.target.value;
+     setSearchText(value);
+    
+  };
+  const callSearch = (event)=>{
+    event.preventDefault();
+    props.updateAnimListOnSearch(searchText)
+  }
+  const refresh = () => {
+    props.refresh();
   };
 
-  const refresh = ()=>{
-    props.refresh();
-  }
   return (
     <div>
       <div class="grid grid-cols-3 gap-4">
@@ -54,10 +71,13 @@ function SearchBar(props) {
                 class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search Animations..."
                 required
+                value={searchText || ""}
+                onChange={handleChange}
               />
               <button
                 type="submit"
                 class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={callSearch}
               >
                 Search
               </button>

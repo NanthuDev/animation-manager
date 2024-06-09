@@ -27,8 +27,7 @@ function UploadForm(props) {
     const filseName = "animations/cf81cf50-d6ad-4bf1-bcfa-1886a463b7f5";
     const encodedFileName = encodeURIComponent(filseName);
     const downloadUrl = await ref(encodedFileName).getDownloadURL();
-    console.log(downloadUrl);
-  };
+   };
 
  // getImage("90");
 

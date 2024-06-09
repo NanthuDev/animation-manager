@@ -8,8 +8,7 @@ const AnimCards = (props) => {
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {}, []);
-  console.log(props);
-  if (props.animList) {
+   if (props.animList) {
     return (
       <div>
         <div class="flex flex-wrap justify-center mt-10">

@@ -28,8 +28,7 @@ const AnimationServices = {
       })
         .then(async (result) => {
           let data = await result.json();
-          console.log(data);
-          resolve(data.data.events);
+           resolve(data.data.events);
         })
         .catch((err) => {
           reject(err);
@@ -48,8 +47,7 @@ const AnimationServices = {
       })
         .then(async (result) => {
           let data = await result.json();
-          console.log(data);
-          resolve(data.data.events);
+           resolve(data);
         })
         .catch((err) => {
           reject(err);

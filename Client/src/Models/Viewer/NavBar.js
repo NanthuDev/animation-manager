@@ -10,7 +10,6 @@ function NavBar() {
   const [loader, setLoader] = useState(true);
 
   const refresh = () => {
-    console.log("hjaooo");
     setLoader(false);
     getAnimeLists();
   };
@@ -26,10 +25,21 @@ function NavBar() {
       }`,
     };
     AnimationServices.getAnimations(requestBody).then((animLists) => {
-      console.log(animLists.length);
       setAnimLists(animLists);
       setLoader(false);
     });
+  };
+  const updateAnimListOnSearch = (values) => {
+    getSearchResults(values);
+  };
+  const getSearchResults = (searchText) => {
+    if (searchText) {
+      AnimationServices.searchAnimations(searchText).then((results) => {
+        setAnimLists(results);
+      });
+    } else {
+      getAnimeLists();
+    }
   };
   //getAnimeLists()
   useEffect(() => {
@@ -44,7 +54,10 @@ function NavBar() {
        Animation Management System - NavBar
 
       </h1> */}
-        <SearchBar refresh={refresh}></SearchBar>
+        <SearchBar
+          refresh={refresh}
+          updateAnimListOnSearch={updateAnimListOnSearch}
+        ></SearchBar>
         {/* <Uploader></Uploader> */}
         {animLists.length !== 0 ? (
           <AnimCards animList={animLists}></AnimCards>

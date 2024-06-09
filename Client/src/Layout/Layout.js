@@ -11,6 +11,7 @@ function Layout() {
     <div className="App">
      <Header> 
      </Header>
+     
      <NavBar>
      </NavBar>
  

@@ -108,7 +108,7 @@ app.use(
 );
 
 app.use("/animations", async function (req, res) {
-    const results = await animEvent.find( { $title: { search: "\"tes\"" } }).catch(err=>{
+    const results = await animEvent.find( { $text: { $search: "test" } }).catch(err=>{
        
         res.send(err.message);
 

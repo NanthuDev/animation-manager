@@ -5,16 +5,14 @@ import { storage } from "../../../fb";
 const imageListRef = ref(storage, "animations/");
 
 const AnimPlayer = (props) => {
-  console.log("plaa", props);
-  const [animUrl, setAnimUrl] = useState("");
+   const [animUrl, setAnimUrl] = useState("");
 
   const getImage = async (fileName) => {
     // Create a reference to the file whose metadata we want to retrieve
     if (fileName) {
       const storageRef = ref(storage, `animations/${fileName}`);
-      console.log("sss",storageRef)
-      getDownloadURL(storageRef).then((url =>{
-        console.log("Download Url: " + url)
+       getDownloadURL(storageRef).then((url =>{
+        // console.log("Download Url: " + url)
         setAnimUrl(url);
       }))
 
@@ -26,7 +24,7 @@ const AnimPlayer = (props) => {
   };
 
   useEffect(() => {
-    console.log("popofdspf", props.fileName);
+    // console.log("popofdspf", props.fileName);
     if (props.fileName) {
       getImage(props.fileName);
     }
